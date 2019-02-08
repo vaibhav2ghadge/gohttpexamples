@@ -11,6 +11,7 @@ import (
 	"github.com/gohttpexamples/sample4/delivery/restapplication/packages/httphandlers"
 	mthdroutr "github.com/gohttpexamples/sample4/delivery/restapplication/packages/mthdrouter"
 	"github.com/gohttpexamples/sample4/delivery/restapplication/packages/resputl"
+	"github.com/gohttpexamples/sample4/domain"
 	"github.com/gorilla/mux"
 )
 
@@ -98,7 +99,32 @@ func (p *UserCrudHandler) Post(r *http.Request) resputl.SrvcRes {
 
 //Put method modifies temporary schedule contents
 func (p *UserCrudHandler) Put(r *http.Request) resputl.SrvcRes {
-	return resputl.Response200OK("NOT IMPLEMENTED")
+
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		resputl.ReponseCustomError(err)
+	}
+	e, err := ValidateUserCreateUpdateRequest(string(body))
+	if e == false {
+		return resputl.ProcessError(err, body)
+		return resputl.SimpleBadRequest("Invalid Input Data")
+
+	}
+	logger.Printf("Received PUT request to UPDATE schedule %s ", string(body))
+	var requestdata *domain.User
+	err = json.Unmarshal(body, &requestdata)
+	if err != nil {
+		resputl.SimpleBadRequest("Error unmarshalling Data")
+	}
+
+	//f := userrepo.Factory{}
+	//userObj := f.NewUser(requestdata.FirstName, requestdata.LastName, requestdata.Age)
+	err = p.usersvc.Update(requestdata)
+	if err != nil {
+		return resputl.ProcessError(customerrors.UnprocessableEntityError("Error Finding Data"), "")
+	}
+
+	return resputl.Response200OK("Updated Succefully")
 }
 
 //Delete method removes temporary schedule from db
