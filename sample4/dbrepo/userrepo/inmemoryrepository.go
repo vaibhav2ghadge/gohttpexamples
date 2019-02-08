@@ -1,6 +1,10 @@
 package userrepo
 
-import "github.com/priteshgudge/gohttpexamples/sample4/domain"
+import (
+	"strings"
+
+	"github.com/gohttpexamples/sample4/domain"
+)
 
 type UserInMemRepository struct {
 	userObjs []*domain.User
@@ -34,6 +38,18 @@ func (in *UserInMemRepository) GetAll() ([]*domain.User, error) {
 		userObjResp = append(userObjResp, user)
 	}
 	return userObjResp, nil
+}
+func (in *UserInMemRepository) Delete(ID string) error {
+	for i, obj := range in.userObjs {
+		if strings.Compare(obj.ID, ID) == 0 {
+			n := len(in.userObjs) - 1
+			in.userObjs[i] = in.userObjs[n]
+			in.userObjs[n] = nil
+			in.userObjs = in.userObjs[:n]
+			return nil
+		}
+	}
+	return domain.DomainErrorNotFound
 }
 
 func (in *UserInMemRepository) GetByID(ID string) (*domain.User, error) {

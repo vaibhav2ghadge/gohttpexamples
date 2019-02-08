@@ -6,12 +6,12 @@ import (
 	logger "log"
 	"net/http"
 
+	"github.com/gohttpexamples/sample4/dbrepo/userrepo"
+	customerrors "github.com/gohttpexamples/sample4/delivery/restapplication/packages/errors"
+	"github.com/gohttpexamples/sample4/delivery/restapplication/packages/httphandlers"
+	mthdroutr "github.com/gohttpexamples/sample4/delivery/restapplication/packages/mthdrouter"
+	"github.com/gohttpexamples/sample4/delivery/restapplication/packages/resputl"
 	"github.com/gorilla/mux"
-	"github.com/priteshgudge/gohttpexamples/sample4/dbrepo/userrepo"
-	customerrors "github.com/priteshgudge/gohttpexamples/sample4/delivery/restapplication/packages/errors"
-	"github.com/priteshgudge/gohttpexamples/sample4/delivery/restapplication/packages/httphandlers"
-	mthdroutr "github.com/priteshgudge/gohttpexamples/sample4/delivery/restapplication/packages/mthdrouter"
-	"github.com/priteshgudge/gohttpexamples/sample4/delivery/restapplication/packages/resputl"
 )
 
 type UserCrudHandler struct {
@@ -103,5 +103,19 @@ func (p *UserCrudHandler) Put(r *http.Request) resputl.SrvcRes {
 
 //Delete method removes temporary schedule from db
 func (p *UserCrudHandler) Delete(r *http.Request) resputl.SrvcRes {
-	return resputl.Response200OK("NOT IMPLEMENTED")
+
+	pathParam := mux.Vars(r)
+	usID := pathParam["id"]
+	if usID == "" {
+
+		return resputl.Response200OK("give User ID")
+	} else {
+		err := p.usersvc.Delete(usID)
+
+		if err != nil {
+			return resputl.ProcessError(customerrors.NotFoundError("User Object Not found"), "")
+		}
+
+		return resputl.Response200OK("DELETE Succefully")
+	}
 }
