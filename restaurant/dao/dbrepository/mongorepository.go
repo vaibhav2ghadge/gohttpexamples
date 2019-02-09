@@ -25,7 +25,7 @@ func NewMongoRepository(mongoSession *mgo.Session, db string) *MongoRepository {
 }
 
 //Find a Restaurant by Id
-func (r *MongoRepository) Get(id domain.ID) (*domain.Restaurant, error) {
+func (r *MongoRepository) Get(id string) (*domain.Restaurant, error) {
 	result := domain.Restaurant{}
 	session := r.mongoSession.Clone()
 	defer session.Close()

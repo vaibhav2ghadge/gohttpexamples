@@ -40,6 +40,7 @@ func main() {
 	h.Handle("/ping/", pingHandler)
 	//h.Handle("/restaurantservice/restaurant/{typeOfFood}", restHandler)
 	//h.Handle("/restaurantservice/restaurant/?typeOfFood={food}", restHandler)
+	h.Handle("/restaurantservice/restaurant/{id}", restHandler)
 	h.Handle("/restaurantservice/restaurant/", restHandler)
 	logger.Println("Resource Setup Done.")
 	logger.Fatal(http.ListenAndServe(":8080", h))

@@ -6,9 +6,11 @@ import (
 
 	dbrepo "github.com/gohttpexamples/restaurant/dao/dbrepository"
 	"github.com/gohttpexamples/restaurant/dbrepo/userrepo"
+	customerrors "github.com/gohttpexamples/restaurant/delivery/restapplication/packages/errors"
 	"github.com/gohttpexamples/restaurant/delivery/restapplication/packages/httphandlers"
 	mthdroutr "github.com/gohttpexamples/restaurant/delivery/restapplication/packages/mthdrouter"
 	"github.com/gohttpexamples/restaurant/delivery/restapplication/packages/resputl"
+	"github.com/gorilla/mux"
 )
 
 type UserCrudHandlerr struct {
@@ -63,42 +65,66 @@ func (p *RestCrudHandler) Get(r *http.Request) resputl.SrvcRes {
 		return resputl.Response200OK(responseObj)
 
 	}
-	return resputl.Response200OK("im working")
-	/*
-		pathParam := mux.Vars(r)
-		usID := pathParam["id"]
-		if usID == "" {
+	pathParam := mux.Vars(r)
+	usID := pathParam["id"]
+	fmt.Println(usID)
+	if usID == "" {
 
-			//return resputl.Response200OK(generateSampleResponseObj())
-			resp, err := p.usersvc.GetAll()
+		//return resputl.Response200OK(generateSampleResponseObj())
+		resp, err := p.Mongo1.GetAll()
 
-			if err != nil {
-				return resputl.ReponseCustomError(err)
-			}
-
-			responseObj := transformobjListToResponse(resp)
-
-			return resputl.Response200OK(responseObj)
-		} else {
-			obj, err := p.usersvc.GetByID(usID)
-
-			if err != nil {
-				return resputl.ProcessError(customerrors.NotFoundError("User Object Not found"), "")
-			}
-
-			userObj := UserGetRespDTO{
-				ID:        obj.ID,
-				FirstName: obj.Firstname,
-				LastName:  obj.Lastname,
-				CreatedOn: obj.CreatedOn,
-				Age:       obj.Age,
-			}
-
-			return resputl.Response200OK(userObj)
-
+		if err != nil {
+			return resputl.ReponseCustomError(err)
 		}
-	*/
+		responseObj := transformobjListToResponse(resp)
+		return resputl.Response200OK(responseObj)
+	} else {
+		resp, err := p.Mongo1.Get(usID)
+
+		if err != nil {
+			return resputl.ProcessError(customerrors.NotFoundError("User Object Not found"), "")
+		}
+
+		return resputl.Response200OK(resp)
+	}
+
+	return resputl.Response200OK("im working")
 }
+
+/*
+	pathParam := mux.Vars(r)
+	usID := pathParam["id"]
+	if usID == "" {
+
+		//return resputl.Response200OK(generateSampleResponseObj())
+		resp, err := p.usersvc.GetAll()
+
+		if err != nil {
+			return resputl.ReponseCustomError(err)
+		}
+
+		responseObj := transformobjListToResponse(resp)
+
+		return resputl.Response200OK(responseObj)
+	} else {
+		obj, err := p.usersvc.GetByID(usID)
+
+		if err != nil {
+			return resputl.ProcessError(customerrors.NotFoundError("User Object Not found"), "")
+		}
+
+		userObj := UserGetRespDTO{
+			ID:        obj.ID,
+			FirstName: obj.Firstname,
+			LastName:  obj.Lastname,
+			CreatedOn: obj.CreatedOn,
+			Age:       obj.Age,
+		}
+
+		return resputl.Response200OK(userObj)
+
+	}
+*/
 
 /*
 //Post method creates new temporary schedule
