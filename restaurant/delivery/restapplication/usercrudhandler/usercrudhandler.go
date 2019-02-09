@@ -35,9 +35,19 @@ func (p *RestCrudHandler) Get(r *http.Request) resputl.SrvcRes {
 	//usID := pathParam["typeOfFood"]
 	foodType := r.URL.Query()["typeOfFood"]
 	fmt.Println("get", foodType)
-	if foodType[0] != "" {
-		result, err := p.Mongo1.FindByName(foodType[0])
-		fmt.Print(err, result)
+	if len(foodType) == 1 {
+		result, _ := p.Mongo1.FindByTypeOfFood(foodType[0])
+		//fmt.Print(err, result)
+		responseObj := transformobjListToResponse(result)
+
+		return resputl.Response200OK(responseObj)
+
+	}
+	nameOfFood := r.URL.Query()["name"]
+	fmt.Println("get", nameOfFood)
+	if len(nameOfFood) == 1 {
+		result, _ := p.Mongo1.FindByName(nameOfFood[0])
+		//fmt.Print(err, result)
 		responseObj := transformobjListToResponse(result)
 
 		return resputl.Response200OK(responseObj)
