@@ -30,7 +30,8 @@ func main() {
 	dbname := "restaurant"
 	repoaccess := dbrepo.NewMongoRepository(mongoSession, dbname)
 	fmt.Println(repoaccess)
-	restHandler := &usercrudhandler.RestCrudHandler{}
+	restHandler := usercrudhandler.NewRestCrudHandler(repoaccess)
+	fmt.Println(restHandler.Mongo1)
 	pingHandler := &handlerlib.PingHandler{}
 	logger.Println("Setting up resources.")
 	logger.Println("Starting service")

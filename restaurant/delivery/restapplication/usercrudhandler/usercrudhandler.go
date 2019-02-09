@@ -4,22 +4,24 @@ import (
 	"fmt"
 	"net/http"
 
+	dbrepo "github.com/gohttpexamples/restaurant/dao/dbrepository"
 	"github.com/gohttpexamples/restaurant/dbrepo/userrepo"
 	"github.com/gohttpexamples/restaurant/delivery/restapplication/packages/httphandlers"
 	mthdroutr "github.com/gohttpexamples/restaurant/delivery/restapplication/packages/mthdrouter"
 	"github.com/gohttpexamples/restaurant/delivery/restapplication/packages/resputl"
 )
 
-type UserCrudHandler struct {
+type UserCrudHandlerr struct {
 	httphandlers.BaseHandler
 	usersvc userrepo.Repository
 }
 type RestCrudHandler struct {
+	Mongo1 *dbrepo.MongoRepository
 	httphandlers.BaseHandler
 }
 
-func NewRestCrudHandler() *RestCrudHandler {
-	return &RestCrudHandler{}
+func NewRestCrudHandler(mongor *dbrepo.MongoRepository) *RestCrudHandler {
+	return &RestCrudHandler{Mongo1: mongor}
 }
 
 func (p *RestCrudHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
