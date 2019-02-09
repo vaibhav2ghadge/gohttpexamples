@@ -30,6 +30,7 @@ func main() {
 	dbname := "restaurant"
 	repoaccess := dbrepo.NewMongoRepository(mongoSession, dbname)
 	fmt.Println(repoaccess)
+	//clone mongo session in resturant structure
 	restHandler := usercrudhandler.NewRestCrudHandler(repoaccess)
 	fmt.Println(restHandler.Mongo1)
 	pingHandler := &handlerlib.PingHandler{}
@@ -37,7 +38,9 @@ func main() {
 	logger.Println("Starting service")
 	h := mux.NewRouter()
 	h.Handle("/ping/", pingHandler)
-	h.Handle("/rest/", restHandler)
+	//h.Handle("/restaurantservice/restaurant/{typeOfFood}", restHandler)
+	//h.Handle("/restaurantservice/restaurant/?typeOfFood={food}", restHandler)
+	h.Handle("/restaurantservice/restaurant/", restHandler)
 	logger.Println("Resource Setup Done.")
 	logger.Fatal(http.ListenAndServe(":8080", h))
 }

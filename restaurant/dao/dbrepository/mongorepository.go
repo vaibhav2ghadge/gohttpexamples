@@ -1,11 +1,7 @@
 package dbrepository
 
 import (
-	"bufio"
-	"encoding/json"
 	"fmt"
-	"log"
-	"os"
 
 	domain "github.com/gohttpexamples/restaurant/dao/domain"
 	mgo "gopkg.in/mgo.v2"
@@ -94,11 +90,12 @@ func (r *MongoRepository) Search(query string) ([]*domain.Restaurant, error) {
 }
 
 //Store a Restaurantrecord
+/*
 func (r *MongoRepository) Store(b *domain.Restaurant) (domain.ID, error) {
 	session := r.mongoSession.Clone()
 	defer session.Close()
 	coll := session.DB(r.db).C(collectionName)
-	if domain.ID(0) == b.DBID {
+	if string(0) == b.DBID {
 		b.DBID = domain.NewID()
 	}
 
@@ -109,7 +106,7 @@ func (r *MongoRepository) Store(b *domain.Restaurant) (domain.ID, error) {
 	}
 	return b.DBID, nil
 }
-
+*/
 //delete document from mongodb by id
 
 func (r *MongoRepository) Delete(id domain.ID) error {
@@ -182,6 +179,8 @@ func PrintRestaurant(r []*domain.Restaurant) {
 		fmt.Println(obj)
 	}
 }
+
+/*
 func (r *MongoRepository) MarshalingFileData(filePath string) int {
 
 	file, err := os.Open(filePath)
@@ -207,3 +206,4 @@ func (r *MongoRepository) MarshalingFileData(filePath string) int {
 	}
 	return cnt
 }
+*/

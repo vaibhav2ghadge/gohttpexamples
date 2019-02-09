@@ -1,20 +1,26 @@
 package usercrudhandler
 
-import "github.com/gohttpexamples/restaurant/domain"
+import (
+	d "github.com/gohttpexamples/restaurant/dao/domain"
+)
 
-func transformobjListToResponse(resp []*domain.User) UserGetListRespDTO {
-	responseObj := UserGetListRespDTO{}
+func transformobjListToResponse(resp []*d.Restaurant) RestaurantGetListRespDTO {
+	responseObj := RestaurantGetListRespDTO{}
 	for _, obj := range resp {
-		userObj := UserGetRespDTO{
-			ID:        obj.ID,
-			FirstName: obj.Firstname,
-			LastName:  obj.Lastname,
-			Age:       obj.Age,
-			CreatedOn: obj.CreatedOn,
+		userObj := RestaurantRespDTO{
+			DBID:         obj.DBID,
+			Name:         obj.Name,
+			Address:      obj.Address,
+			AddressLine2: obj.AddressLine2,
+			URL:          obj.URL,
+			Outcode:      obj.Outcode,
+			Postcode:     obj.Postcode,
+			Rating:       obj.Rating,
+			Type_of_food: obj.Type_of_food,
 		}
-		responseObj.Users = append(responseObj.Users, userObj)
+		responseObj.Rest = append(responseObj.Rest, userObj)
 	}
-	responseObj.Count = len(responseObj.Users)
+	responseObj.Count = len(responseObj.Rest)
 
 	return responseObj
 }

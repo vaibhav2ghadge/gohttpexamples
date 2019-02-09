@@ -31,7 +31,18 @@ func (p *RestCrudHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 //Get http method to get data
 func (p *RestCrudHandler) Get(r *http.Request) resputl.SrvcRes {
-	fmt.Println("get")
+	//pathParam := mux.Vars(r)
+	//usID := pathParam["typeOfFood"]
+	foodType := r.URL.Query()["typeOfFood"]
+	fmt.Println("get", foodType)
+	if foodType[0] != "" {
+		result, err := p.Mongo1.FindByName(foodType[0])
+		fmt.Print(err, result)
+		responseObj := transformobjListToResponse(result)
+
+		return resputl.Response200OK(responseObj)
+
+	}
 	return resputl.Response200OK("im working")
 	/*
 		pathParam := mux.Vars(r)
