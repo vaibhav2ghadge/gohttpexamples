@@ -53,6 +53,16 @@ func (p *RestCrudHandler) Get(r *http.Request) resputl.SrvcRes {
 		return resputl.Response200OK(responseObj)
 
 	}
+	searchQry := r.URL.Query()["searchTerm"]
+	fmt.Println("get", searchQry)
+	if len(searchQry) == 1 {
+		result, _ := p.Mongo1.Search(nameOfFood[0])
+		//fmt.Print(err, result)
+		responseObj := transformobjListToResponse(result)
+
+		return resputl.Response200OK(responseObj)
+
+	}
 	return resputl.Response200OK("im working")
 	/*
 		pathParam := mux.Vars(r)
