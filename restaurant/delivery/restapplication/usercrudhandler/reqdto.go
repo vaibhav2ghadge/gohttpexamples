@@ -1,16 +1,5 @@
 package usercrudhandler
 
-type UserCreateReqDTO struct {
-	FirstName string `json:"firstName"`
-	LastName  string `json:"lastName"`
-	Age       int    `json:"age"`
-}
-
-type UserUpdateDTO struct {
-	FirstName string `json:"firstName"`
-	LastName  string `json:"lastName"`
-	Age       int    `json:"age"`
-}
 type RestaurantCreateRespDTO struct {
 	DBID         string  `json:"id" bson:"_id"`
 	Name         string  `json:"name" bson:"name"`

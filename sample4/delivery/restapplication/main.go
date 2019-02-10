@@ -5,10 +5,10 @@ import (
 	"net/http"
 	"time"
 
+	handlerlib "github.com/gohttpexamples/sample4/delivery/restapplication/packages/httphandlers"
+	"github.com/gohttpexamples/sample4/delivery/restapplication/usercrudhandler"
+	"github.com/gohttpexamples/sample4/dbrepo/userrepo"
 	"github.com/gorilla/mux"
-	"github.com/priteshgudge/gohttpexamples/sample4/dbrepo/userrepo"
-	handlerlib "github.com/priteshgudge/gohttpexamples/sample4/delivery/restapplication/packages/httphandlers"
-	"github.com/priteshgudge/gohttpexamples/sample4/delivery/restapplication/usercrudhandler"
 )
 
 func init() {

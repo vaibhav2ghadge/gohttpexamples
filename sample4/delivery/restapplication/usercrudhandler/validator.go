@@ -5,7 +5,7 @@ import (
 	"fmt"
 	logger "log"
 
-	customerrors "github.com/priteshgudge/gohttpexamples/sample4/delivery/restapplication/packages/errors"
+	customerrors "github.com/gohttpexamples/sample4/delivery/restapplication/packages/errors"
 	"github.com/xeipuuv/gojsonschema"
 )
 

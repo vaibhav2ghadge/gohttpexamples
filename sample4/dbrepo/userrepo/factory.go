@@ -1,8 +1,8 @@
 package userrepo
 
 import (
-	"github.com/priteshgudge/gohttpexamples/sample4/domain"
-	"github.com/priteshgudge/gohttpexamples/sample4/utils"
+	"github.com/gohttpexamples/sample4/domain"
+	"github.com/gohttpexamples/sample4/utils"
 )
 
 type Factory struct {

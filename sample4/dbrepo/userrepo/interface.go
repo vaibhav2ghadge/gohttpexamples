@@ -1,16 +1,15 @@
 package userrepo
 
-import "github.com/gohttpexamples/sample4/domain"
-
 type Reader interface {
-	GetAll() ([]*domain.User, error)
+	/*GetAll() ([]*domain.User, error)
 	GetByID(ID string) (*domain.User, error)
+	*/
 }
 
 type Writer interface {
-	Create(*domain.User) (string, error)
+	/*Create(*domain.User) (string, error)
 	Update(*domain.User) error
-	Delete(ID string) error
+	Delete(ID string) error*/
 	//Archive(*domain.User) error
 }
 

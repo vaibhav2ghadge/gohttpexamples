@@ -3,7 +3,7 @@ package httphandlers
 import (
 	"net/http"
 
-	"github.com/priteshgudge/gohttpexamples/sample4/delivery/restapplication/packages/resputl"
+	"github.com/gohttpexamples/restaurant/delivery/restapplication/packages/resputl"
 )
 
 //BaseHandler is base for all Handlers

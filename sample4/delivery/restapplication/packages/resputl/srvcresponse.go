@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
-	customerrors "github.com/priteshgudge/gohttpexamples/sample4/delivery/restapplication/packages/errors"
+	customerrors "github.com/gohttpexamples/sample4/delivery/restapplication/packages/errors"
 )
 
 //EmptyStruct represents empty strcuture

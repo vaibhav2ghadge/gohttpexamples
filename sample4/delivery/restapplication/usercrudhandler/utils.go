@@ -1,6 +1,6 @@
 package usercrudhandler
 
-import "github.com/priteshgudge/gohttpexamples/sample4/domain"
+import "github.com/gohttpexamples/sample4/domain"
 
 func transformobjListToResponse(resp []*domain.User) UserGetListRespDTO {
 	responseObj := UserGetListRespDTO{}

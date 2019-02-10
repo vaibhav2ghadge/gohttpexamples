@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	resputl "github.com/priteshgudge/gohttpexamples/sample4/delivery/restapplication/packages/resputl"
+	resputl "github.com/gohttpexamples/sample4/delivery/restapplication/packages/resputl"
 )
 
 //ServiceAPIHandler all http methods

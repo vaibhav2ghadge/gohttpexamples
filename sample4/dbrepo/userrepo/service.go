@@ -1,8 +1,8 @@
 package userrepo
 
 import (
-	"github.com/priteshgudge/gohttpexamples/sample4/domain"
-	"github.com/priteshgudge/gohttpexamples/sample4/utils"
+	"github.com/gohttpexamples/sample4/domain"
+	"github.com/gohttpexamples/sample4/utils"
 )
 
 type Service struct {
@@ -44,4 +44,9 @@ func (s *Service) Update(inp *domain.User) error {
 
 	//inp.UpdatedOn = utils.GetUTCTImeNow()
 	return s.repo.Update(inp)
+}
+func (s *Service) Delete(ID string) error {
+
+	//inp.UpdatedOn = utils.GetUTCTImeNow()
+	return s.repo.Delete(ID)
 }
