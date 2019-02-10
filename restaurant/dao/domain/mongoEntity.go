@@ -48,8 +48,8 @@ func (i *ID) SetBSON(raw bson.Raw) error {
 }
 
 //StringToID convert a string to an ID
-func StringToID(s string) ID {
-	return ID(bson.ObjectIdHex(s))
+func StringToID(s string) string {
+	return string(bson.ObjectIdHex(s))
 }
 
 //IsValidID check if is a valid ID
@@ -58,6 +58,6 @@ func IsValidID(s string) bool {
 }
 
 //NewID create a new id
-func NewID() ID {
+func NewID() string {
 	return StringToID(bson.NewObjectId().Hex())
 }

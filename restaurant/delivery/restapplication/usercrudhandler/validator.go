@@ -16,26 +16,51 @@ func ValidateUserCreateUpdateRequest(rStr string) (bool, error) {
 		"$schema": "http://json-schema.org/draft-04/schema#",
 		"type": "object",
 		"properties": {
-		  "firstName": {
+		  "Name ": {
             "type": "string",
 			"minLength": 1,
 			"maxLength": 20
 		  },
-		  "lastName": {
+		  "Address": {
             "type": "string",
 			"minLength": 1,
 			"maxLength": 20
 		  },
-		  "age": {
-            "type": "integer",
+		  "AddressLine2": {
+            "type": "string",
+			"minLength": 1,
+			"maxLength": 20
+		  },
+		  "URL": {
+            "type": "string",
+			"minLength": 1,
+			"maxLength": 20
+		  },
+		  "Outcode": {
+            "type": "string",
+			"minLength": 1,
+			"maxLength": 20
+		  },
+		  "Postcode": {
+            "type": "string",
+			"minLength": 1,
+			"maxLength": 20
+		  },
+		  "Rating": {
+            "type": "number",
+			"minLength": 1,
+			"maxLength": 20
+		  },
+		  "Type_of_food": {
+            "type": "string",
 			"minimum": 1,
 			"maximum": 120
 		  }
 		},
 		"required": [
-		  "firstName",
-		  "lastName",
-		  "age"
+		  "Name",
+		  "Address",
+		  "AddressLine2"
 		]
 	  }`
 

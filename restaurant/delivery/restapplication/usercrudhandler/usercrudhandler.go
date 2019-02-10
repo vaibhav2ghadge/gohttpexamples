@@ -1,10 +1,14 @@
 package usercrudhandler
 
 import (
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
+	logger "log"
 	"net/http"
 
 	dbrepo "github.com/gohttpexamples/restaurant/dao/dbrepository"
+	domain "github.com/gohttpexamples/restaurant/dao/domain"
 	"github.com/gohttpexamples/restaurant/dbrepo/userrepo"
 	customerrors "github.com/gohttpexamples/restaurant/delivery/restapplication/packages/errors"
 	"github.com/gohttpexamples/restaurant/delivery/restapplication/packages/httphandlers"
@@ -91,44 +95,8 @@ func (p *RestCrudHandler) Get(r *http.Request) resputl.SrvcRes {
 	return resputl.Response200OK("im working")
 }
 
-/*
-	pathParam := mux.Vars(r)
-	usID := pathParam["id"]
-	if usID == "" {
-
-		//return resputl.Response200OK(generateSampleResponseObj())
-		resp, err := p.usersvc.GetAll()
-
-		if err != nil {
-			return resputl.ReponseCustomError(err)
-		}
-
-		responseObj := transformobjListToResponse(resp)
-
-		return resputl.Response200OK(responseObj)
-	} else {
-		obj, err := p.usersvc.GetByID(usID)
-
-		if err != nil {
-			return resputl.ProcessError(customerrors.NotFoundError("User Object Not found"), "")
-		}
-
-		userObj := UserGetRespDTO{
-			ID:        obj.ID,
-			FirstName: obj.Firstname,
-			LastName:  obj.Lastname,
-			CreatedOn: obj.CreatedOn,
-			Age:       obj.Age,
-		}
-
-		return resputl.Response200OK(userObj)
-
-	}
-*/
-
-/*
 //Post method creates new temporary schedule
-func (p *UserCrudHandler) Post(r *http.Request) resputl.SrvcRes {
+func (p *RestCrudHandler) Post(r *http.Request) resputl.SrvcRes {
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		resputl.ReponseCustomError(err)
@@ -140,25 +108,23 @@ func (p *UserCrudHandler) Post(r *http.Request) resputl.SrvcRes {
 
 	}
 	logger.Printf("Received POST request to Create schedule %s ", string(body))
-	var requestdata *UserCreateReqDTO
+	var requestdata *domain.Restaurant
 	err = json.Unmarshal(body, &requestdata)
 	if err != nil {
 		resputl.SimpleBadRequest("Error unmarshalling Data")
 	}
 
-	f := userrepo.Factory{}
-	userObj := f.NewUser(requestdata.FirstName, requestdata.LastName, requestdata.Age)
-	id, err := p.usersvc.Create(userObj)
+	id, err := p.Mongo1.Store(requestdata)
 	if err != nil {
 		logger.Fatalf("Error while creating in DB: %v", err)
 		return resputl.ProcessError(customerrors.UnprocessableEntityError("Error in writing to DB"), "")
 	}
 
-	return resputl.Response200OK(&UserCreateRespDTO{ID: id})
+	return resputl.Response200OK(&RestaurantRespDTO{DBID: id})
 }
 
 //Put method modifies temporary schedule contents
-func (p *UserCrudHandler) Put(r *http.Request) resputl.SrvcRes {
+func (p *RestCrudHandler) Put(r *http.Request) resputl.SrvcRes {
 
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
@@ -171,7 +137,7 @@ func (p *UserCrudHandler) Put(r *http.Request) resputl.SrvcRes {
 
 	}
 	logger.Printf("Received PUT request to UPDATE schedule %s ", string(body))
-	var requestdata *domain.User
+	var requestdata *domain.Restaurant
 	err = json.Unmarshal(body, &requestdata)
 	if err != nil {
 		resputl.SimpleBadRequest("Error unmarshalling Data")
@@ -179,7 +145,8 @@ func (p *UserCrudHandler) Put(r *http.Request) resputl.SrvcRes {
 
 	//f := userrepo.Factory{}
 	//userObj := f.NewUser(requestdata.FirstName, requestdata.LastName, requestdata.Age)
-	err = p.usersvc.Update(requestdata)
+	err = p.Mongo1.Update(requestdata)
+	fmt.Println(err)
 	if err != nil {
 		return resputl.ProcessError(customerrors.UnprocessableEntityError("Error Finding Data"), "")
 	}
@@ -188,7 +155,7 @@ func (p *UserCrudHandler) Put(r *http.Request) resputl.SrvcRes {
 }
 
 //Delete method removes temporary schedule from db
-func (p *UserCrudHandler) Delete(r *http.Request) resputl.SrvcRes {
+func (p *RestCrudHandler) Delete(r *http.Request) resputl.SrvcRes {
 
 	pathParam := mux.Vars(r)
 	usID := pathParam["id"]
@@ -196,7 +163,7 @@ func (p *UserCrudHandler) Delete(r *http.Request) resputl.SrvcRes {
 
 		return resputl.Response200OK("give User ID")
 	} else {
-		err := p.usersvc.Delete(usID)
+		err := p.Mongo1.Delete(usID)
 
 		if err != nil {
 			return resputl.ProcessError(customerrors.NotFoundError("User Object Not found"), "")
@@ -205,4 +172,3 @@ func (p *UserCrudHandler) Delete(r *http.Request) resputl.SrvcRes {
 		return resputl.Response200OK("DELETE Succefully")
 	}
 }
-*/

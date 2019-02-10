@@ -41,6 +41,24 @@ func (r *MongoRepository) Get(id string) (*domain.Restaurant, error) {
 	}
 }
 
+//update data by name
+
+func (r *MongoRepository) Update(rt *domain.Restaurant) error {
+	//result := domain.Restaurant{}
+	session := r.mongoSession.Clone()
+	defer session.Close()
+	coll := session.DB(r.db).C(collectionName)
+	err := coll.Update(bson.M{"name": rt.Name}, bson.M{"$set": bson.M{"address": rt.Address}})
+	switch err {
+	case nil:
+		return nil
+	case mgo.ErrNotFound:
+		return domain.ErrNotFound
+	default:
+		return err
+	}
+}
+
 //get all restaurant
 
 func (r *MongoRepository) GetAll() ([]*domain.Restaurant, error) {
@@ -90,26 +108,26 @@ func (r *MongoRepository) Search(query string) ([]*domain.Restaurant, error) {
 }
 
 //Store a Restaurantrecord
-/*
-func (r *MongoRepository) Store(b *domain.Restaurant) (domain.ID, error) {
+
+func (r *MongoRepository) Store(b *domain.Restaurant) (string, error) {
 	session := r.mongoSession.Clone()
 	defer session.Close()
 	coll := session.DB(r.db).C(collectionName)
-	if string(0) == b.DBID {
+	if string("") == b.DBID {
 		b.DBID = domain.NewID()
 	}
 
 	_, err := coll.UpsertId(b.DBID, b)
 
 	if err != nil {
-		return domain.ID(0), err
+		return string(0), err
 	}
 	return b.DBID, nil
 }
-*/
+
 //delete document from mongodb by id
 
-func (r *MongoRepository) Delete(id domain.ID) error {
+func (r *MongoRepository) Delete(id string) error {
 	session := r.mongoSession.Clone()
 	defer session.Close()
 	coll := session.DB(r.db).C(collectionName)
